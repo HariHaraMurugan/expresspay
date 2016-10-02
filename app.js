@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongodb = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,13 +20,34 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//Mongo
+mongodb.connect('mongodb://localhost:27017/paydata', function(error) {
+  if (error) {
+    console.log("Eror Occured");
+  } else {
+    console.log("connected to mongo");
+  }
+});
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With,     Content-Type, Accept");
+  next();
+});
+
+
 app.use('/', routes);
 app.use('/users', users);
-app.use('/inventory',inventory);
+app.use('/inventory', inventory);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

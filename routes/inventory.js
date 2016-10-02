@@ -6,12 +6,13 @@ var inventoryService = require('../service/inventoryService.js');
 
 router.get('/getItems', function(req, res, next) {
 
-  new inventoryService(req.body,res).getItemList();
+  new inventoryService(req.body, res).getItemList();
 });
 
 router.get('/getItemById/:itemId', function(req, res, next) {
-
-  new inventoryService(req.body,res).getItemById(req.params.itemId);
+  // res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With,     Content-Type, Accept");
+  new inventoryService(req.body, res).getItemById(req.params.itemId);
 
 });
 
