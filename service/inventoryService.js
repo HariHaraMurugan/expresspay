@@ -1,21 +1,49 @@
-function inventoryService(requestBody,responseBody){
-  var dataObject=[{"id":123,"name":"Iphone","price":"50000"},{"id":223,"name":"Galaxy","price":"30000"},{"id":5344,"name":"OnePlus","price":"20000"}];
+var mongodb = require('mongoose');
+var Schema = mongodb.Schema;
+// Define defect schema
+var InventorySchema = new Schema({
+    storeId: String,
+    itemId: String,
+    itemName: String,
+    itemCategory: String,
+    itemSubCategory: String,
+    itemBrand: String,
+    itemDescription: String,
+    itemPrice: String,
+    itemQuantity: String,
+    itemImage: String
+});
 
-  /*Item List*/
-  this.getItemList=function(){
-     responseBody.json(dataObject);
-  }
+function inventoryService(requestBody, responseBody) {
+    var InventoryModel = mongodb.model('inventorys', InventorySchema);
 
-  /*Item BY ID*/
-  this.getItemById=function(itemId){
-     var itemObject={};
-     for (var key in dataObject) {
-       if (dataObject[key].id==itemId) {
-         itemObject=dataObject[key];
-       }
-     }
-     responseBody.json(itemObject);
-  }
+    /*Item List*/
+    this.getItemList = function() {
+
+        InventoryModel.find({}).exec(function(err, inventory) {
+            responseBody.json(inventory);
+        });
+    }
+
+    /*Item BY ID and store id*/
+    this.getItemById = function(storeId, itemId) {
+        console.log(storeId + " " + itemId);
+        InventoryModel.findOne({
+            storeId: storeId,
+            itemId: itemId
+        }, function(err, inventory) {
+            if (err)
+                throw err;
+            // object of the user
+            if (inventory == null) {
+                responseBody.status(404).send("Item Not found");
+            } else {
+                responseBody.status(200);
+                responseBody.json(inventory);
+            }
+        });
+
+    }
 }
 
-module.exports=inventoryService;
+module.exports = inventoryService;
