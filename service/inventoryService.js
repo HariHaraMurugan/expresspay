@@ -38,6 +38,9 @@ function inventoryService(requestBody, responseBody) {
             if (inventory == null) {
                 responseBody.status(404).send("Item Not found");
             } else {
+                inventory =inventory.toObject();
+                inventory.totalPrice=inventory.itemPrice;
+                inventory.totalQuantity=1;
                 responseBody.status(200);
                 responseBody.json(inventory);
             }
