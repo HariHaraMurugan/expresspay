@@ -9,6 +9,7 @@ var mongodb = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var inventory = require('./routes/inventory');
+var transaction = require('./routes/transaction');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/inventory', inventory);
+app.use('/transaction', transaction);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
