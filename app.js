@@ -10,6 +10,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var inventory = require('./routes/inventory');
 var transaction = require('./routes/transaction');
+var offers = require('./routes/offers');
+var newarrivals = require('./routes/newarrival')
 
 var app = express();
 
@@ -50,6 +52,8 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/inventory', inventory);
 app.use('/transaction', transaction);
+app.use('/offers', offers);
+app.use('/newarrivals', newarrivals);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
