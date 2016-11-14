@@ -31,9 +31,11 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//mongodb://ramesh:ramesh12692@ds153667.mlab.com:53667/paydata
+//mongodb://localhost:27017/paydata
 
 //Mongo
-mongodb.connect('mongodb://localhost:27017/paydata', function(error) {
+mongodb.connect('mongodb://ramesh:ramesh12692@ds153667.mlab.com:53667/paydata', function(error) {
   if (error) {
     console.log("Eror Occured");
   } else {
