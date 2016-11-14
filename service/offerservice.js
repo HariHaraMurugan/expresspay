@@ -14,7 +14,8 @@ function offerservice(requestBody, responseBody) {
 
   this.getOfferByStoreId = function(storeId) {
     OffersModel.find({
-      storeId: storeId
+      storeId: storeId,
+      userId: null
     }).exec(function(err, offers) {
       if (err)
         throw err;
@@ -27,6 +28,19 @@ function offerservice(requestBody, responseBody) {
     OffersModel.findOne({
       storeId: storeId,
       itemId: itemId
+    }, function(err, offerDetails) {
+      if (err)
+        throw err;
+      responseBody.status(200);
+      responseBody.json(offerDetails);
+    });
+  }
+
+  this.getOffersByOfferId = function(storeId, offerId) {
+    console.log(offerId);
+    OffersModel.find({
+      storeId: storeId,
+      userId: offerId
     }, function(err, offerDetails) {
       if (err)
         throw err;
