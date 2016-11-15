@@ -1,5 +1,6 @@
 var mongodb = require('mongoose');
 var models = require('./userModel.js');
+var inventoryService = require('../service/inventoryService.js');
 var Schema = mongodb.Schema;
 // Define defect schema
 var TransactionSchema = new Schema({
@@ -22,6 +23,10 @@ function transactionService(requestBody, responseBody) {
     var newTransaction = new TransactionModel(requestBody);
     newTransaction.save(function(err, newTransaction) {
       if (err) return console.error(err);
+      for (var i = 0; i < newTransaction.itemsPurchased.length; i++) {
+        var newItemQuantity = Number(newTransaction.itemsPurchased[i].itemQuantity) - Number(newTransaction.itemsPurchased[i].totalQuantity);
+        new inventoryService(null, null).updateInventoryQuantity(newTransaction.itemsPurchased[i].storeId, newTransaction.itemsPurchased[i].itemId, newItemQuantity);
+      }
       UserModel.findOneAndUpdate({
         phoneNumber: "9940366400"
       }, {
