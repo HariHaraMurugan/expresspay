@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongodb = require('mongoose');
+var fileUpload = require('express-fileupload');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -12,6 +13,7 @@ var inventory = require('./routes/inventory');
 var transaction = require('./routes/transaction');
 var offers = require('./routes/offers');
 var newarrivals = require('./routes/newarrival')
+var excelUpload = require('./routes/excelUpload')
 
 var app = express();
 
@@ -21,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(fileUpload());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -56,6 +59,7 @@ app.use('/inventory', inventory);
 app.use('/transaction', transaction);
 app.use('/offers', offers);
 app.use('/newarrivals', newarrivals);
+app.use('/feedUpload',excelUpload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
