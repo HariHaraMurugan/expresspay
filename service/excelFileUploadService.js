@@ -25,12 +25,12 @@ function uploadService(requestBody,responseBody){
                  counter++;
         if ( counter % 1000 == 0 )
             bulk.execute(function(err,result) {             
-                bulk = Sample.collection.initializeOrderedBulkOp();
+                bulk = InventoryModels.collection.initializeOrderedBulkOp();
                 counter=0;
             });
     }
 
         }
-    
+}
 
 module.exports = uploadService;
