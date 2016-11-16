@@ -14,6 +14,7 @@ var transaction = require('./routes/transaction');
 var offers = require('./routes/offers');
 var newarrivals = require('./routes/newarrival')
 var excelUpload = require('./routes/excelUpload')
+var updateProduct = require('./routes/productModification')
 
 var app = express();
 
@@ -60,6 +61,7 @@ app.use('/transaction', transaction);
 app.use('/offers', offers);
 app.use('/newarrivals', newarrivals);
 app.use('/feedUpload',excelUpload);
+app.use('/uppdateProduct',updateProduct);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,15 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var xls =require("excel");
+var del = require("del");
 
 //var formidable = require('formidable');
 var uploadService = require("../service/excelFileUploadService.js");
-
-router.get('/feedUploadView' , function(req,res,next)
-{
-  console.log('inside view');
-  res.render('fileUpload');
-});
 
 router.get('/feedUploadView' , function(req,res,next)
 {
@@ -38,6 +33,7 @@ router.post('/upload', function(req, res, next) {
     //convertToJSON(JSON.stringify(convertToJSON(data)));
     new uploadService(req, res).uploadFile(convertToJSON(data));
 });
+
 });
 
 function convertToJSON(array) {
