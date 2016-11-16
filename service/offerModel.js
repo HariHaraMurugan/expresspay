@@ -7,7 +7,7 @@ var OfferSchema = new Schema({
   itemId: String,
   itemCategory: String,
   itemSuubCategory: String,
-  userId: String,
+  userId: [String],
   offerType: String,
   discountRate: String
 });

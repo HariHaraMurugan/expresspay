@@ -16,5 +16,8 @@ router.get('/getOffers/:storeId/:itemId', function(req, res, next) {
   new offerService(req.body, res).applyOffers(req.params.storeId, req.params.itemId);
 });
 
+router.get('/getOffersbyofferid/:storeId/:offerId', function(req, res, next) {
+  new offerService(req.body, res).getOffersByOfferId(req.params.storeId, req.params.offerId);
+});
 
 module.exports = router;

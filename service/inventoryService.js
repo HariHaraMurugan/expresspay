@@ -55,6 +55,18 @@ function inventoryService(requestBody, responseBody) {
 
   }
 
+  this.updateInventoryQuantity = function(storeId, itemId, updateQuantity) {
+    InventoryModel.findOneAndUpdate({
+      storeId: storeId,
+      itemId: itemId
+    }, {
+      itemQuantity: updateQuantity
+    }, function(err, inventory) {
+      if (err)
+        throw err;
+      console.log("Updated");
+    });
+  }
 
   /*Item BY ID and store id*/
   this.getNewItemById = function(storeId, itemIds) {
