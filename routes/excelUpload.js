@@ -11,6 +11,12 @@ router.get('/feedUploadView' , function(req,res,next)
   res.render('fileUpload');
 });
 
+router.get('/feedUploadView' , function(req,res,next)
+{
+  console.log('inside view');
+  res.render('fileUpload');
+});
+
 
 router.post('/upload', function(req, res, next) {
   console.log("Inside  file upload");
@@ -30,12 +36,11 @@ router.post('/upload', function(req, res, next) {
   xls('./public/file/guru.xlsx', function(err,data) {
     if(err) throw err;
     //convertToJSON(JSON.stringify(convertToJSON(data)));
-    new uploadService(req, res).uploadFile(JSON.stringify(convertToJSON(data)));
+    new uploadService(req, res).uploadFile(convertToJSON(data));
 });
 });
 
 function convertToJSON(array) {
-   console.log('Inside convertToJSON '+ array);
   var first = array[0].join();
   var headers = first.split(',');
   
