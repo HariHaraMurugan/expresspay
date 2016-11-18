@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var xls =require("excel");
-var del = require("del");
+
 
 //var formidable = require('formidable');
 var uploadService = require("../service/excelFileUploadService.js");
@@ -16,13 +16,15 @@ router.get('/feedUploadView' , function(req,res,next)
 router.post('/upload', function(req, res, next) {
   console.log("Inside  file upload");
   var file;
-    
+    var fileName;
   if(!req.files){
     res.send('No files were uploaded');
     return;
   }
   
   file=req.files.fileName;
+  fileName = req.files.fileName.name;
+  console.log("name is "+fileName)
   file.mv('./public/file/guru.xlsx',function(err){
     if(err) throw err;
     
@@ -31,7 +33,10 @@ router.post('/upload', function(req, res, next) {
   xls('./public/file/guru.xlsx', function(err,data) {
     if(err) throw err;
     //convertToJSON(JSON.stringify(convertToJSON(data)));
-    new uploadService(req, res).uploadFile(convertToJSON(data));
+    var arr = fileName.split("_");
+    var storeId = arr[1];
+    console.log("storeId is" + storeId);
+    new uploadService(req, res).uploadFile(convertToJSON(data),storeId);
 });
 
 });

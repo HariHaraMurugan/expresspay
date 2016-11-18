@@ -2,21 +2,35 @@
 var InventoryModels = require('./inventoryModel.js');
 function uploadService(requestBody,responseBody){
     //Upload file
-    this.uploadFile = function(data){
-        console.log(data);
+    this.uploadFile = function(data,storeId){
+        //console.log(data);
         var bulk = InventoryModels.collection.initializeOrderedBulkOp();
          var counter = 0;
          console.log('datalength'+data.length);
         for(var i=0;i<data.length;i++){
-                   bulk.find({itemId:data[i].itemId}).upsert().update({
-                       $set:{
-                             storeId:data[i].storeId,
+            //insert the value
+                   bulk.find({itemId:data[i].itemId,storeId:storeId}).upsert().update({
+                       "$setOnInsert":{
                              itemName:data[i].itemName,
                              itemCategory:data[i].itemCategory,
                              itemSubCategory:data[i].itemSubCategory,
                              itemBrand:data[i].itemBrand,
                              itemPrice:data[i].itemPrice,
-                             itemQuantity:data[i].itemQuantity,
+                             itemImage:data[i].itemImage
+                       }
+                   });
+                   
+                   //update the value
+                    bulk.find({itemId:data[i].itemId,storeId:storeId}).update({
+                        $inc:{
+                            itemQuantity:Number(data[i].itemQuantity)
+                        },
+                       $set:{
+                             itemName:data[i].itemName,
+                             itemCategory:data[i].itemCategory,
+                             itemSubCategory:data[i].itemSubCategory,
+                             itemBrand:data[i].itemBrand,
+                             itemPrice:data[i].itemPrice,
                              itemImage:data[i].itemImage
                        }
                    });
