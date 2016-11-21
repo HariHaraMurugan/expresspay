@@ -14,7 +14,8 @@ var UserSchema = new Schema({
     default: Date.now
   },
   meregdAccounts: [String],
-  jointAccounts: [String]
+  jointAccounts: [String],
+  quickPay: Schema.Types.Mixed
 });
 // Define counter schema
 var CounterSchema = Schema({
