@@ -38,6 +38,24 @@ function userService(requestBody, responseBody) {
     });
   }
 
+  this.updateQpayUser = function(phoneNumber) {
+    console.log(JSON.stringify(requestBody));
+    UserModel.findOne({
+      phoneNumber: phoneNumber
+    }, function(err, response) {
+      if (err)
+        throw err;
+      if (response != null) {
+        responseBody.status(200);
+        response.quickPay = requestBody;
+        response.save();
+        responseBody.json(response);
+      } else {
+        responseBody.status(404);
+      }
+    })
+  }
+
   this.getUser = function(phoneNumber) {
     UserModel.findOne({
       phoneNumber: phoneNumber

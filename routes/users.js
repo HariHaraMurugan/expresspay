@@ -17,4 +17,9 @@ router.get('/finduser/:phoneNumber', function(req, res, next) {
   new userService(req.body, res).getUser(req.params.phoneNumber);
 })
 
+router.put('/updateqpay/:phoneNumber', function(req, res, next) {
+  console.log("Update User");
+  new userService(req.body, res).updateQpayUser(req.params.phoneNumber);
+})
+
 module.exports = router;
