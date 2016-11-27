@@ -12,9 +12,10 @@ var users = require('./routes/users');
 var inventory = require('./routes/inventory');
 var transaction = require('./routes/transaction');
 var offers = require('./routes/offers');
-var newarrivals = require('./routes/newarrival')
-var excelUpload = require('./routes/excelUpload')
-var updateProduct = require('./routes/productModification')
+var newarrivals = require('./routes/newarrival');
+var excelUpload = require('./routes/excelUpload');
+var updateProduct = require('./routes/productModification');
+var analytics = require('./routes/analytics');
 
 var app = express();
 
@@ -35,8 +36,8 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//var mongurl = "mongodb://ramesh:ramesh12692@ds153667.mlab.com:53667/paydata";
-var mongurl = "mongodb://localhost:27017/paydata";
+var mongurl = "mongodb://ramesh:ramesh12692@ds153667.mlab.com:53667/paydata";
+//var mongurl = "mongodb://localhost:27017/paydata";
 
 //Mongo
 mongodb.connect(mongurl, function(error) {
@@ -60,8 +61,9 @@ app.use('/inventory', inventory);
 app.use('/transaction', transaction);
 app.use('/offers', offers);
 app.use('/newarrivals', newarrivals);
-app.use('/feedUpload',excelUpload);
-app.use('/uppdateProduct',updateProduct);
+app.use('/feedUpload', excelUpload);
+app.use('/uppdateProduct', updateProduct);
+app.use('/analytics', analytics);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
