@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongodb = require('mongoose');
 var fileUpload = require('express-fileupload');
+var cron = require('node-cron');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -47,6 +48,10 @@ mongodb.connect(mongurl, function(error) {
     console.log("connected to mongo");
   }
 });
+
+// cron.schedule('*/3 * * * * *', function() {
+//   console.log('running a task every minute');
+// });
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

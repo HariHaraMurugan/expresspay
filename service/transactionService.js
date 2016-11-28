@@ -104,7 +104,14 @@ function transactionService(requestBody, responseBody) {
 
   this.getTransactionDetails = function(phoneNumber) {
     TransactionModel.find({
-      userId: phoneNumber
+      userId: {
+        "$in": [phoneNumber]
+      },
+      itemsPurchased: {
+        "$elemMatch": {
+          "itemId": "2222"
+        }
+      }
     }, function(error, transactionDetails) {
       if (error) {
         responseBody.status(300);
