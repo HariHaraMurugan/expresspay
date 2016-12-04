@@ -5,6 +5,7 @@ var Schema = mongodb.Schema;
 var UserSchema = new Schema({
   phoneNumber: String,
   offerId: String,
+  emailId: String,
   transactionsMade: [String],
   userRegisteredDate: {
     type: Date

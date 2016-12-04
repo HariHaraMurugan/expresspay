@@ -12,5 +12,8 @@ router.get('/getTransactiondetails/:phoneNumber', function(req, res, next) {
   new transactionService(req.body, res).getTransactionDetails(req.params.phoneNumber);
 });
 
+router.get('/getTransactiondetailwithitemid/:phoneNumber/:itemId', function(req, res, next) {
+  new transactionService(req.body, res).getTransactionDetailsWithItemId(req.params.phoneNumber, req.params.itemId);
+});
 
 module.exports = router;

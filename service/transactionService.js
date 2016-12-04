@@ -54,34 +54,38 @@ function transactionService(requestBody, responseBody) {
             var quantity = newTransaction.itemsPurchased[i].totalQuantity;
 
             console.log(category + " " + subCategory + " " + brand + " " + name + " " + quantity);
-
-            for (var j = 0; j < resp.categories.length; j++) {
-              var categoryArray = resp.categories[j];
-              if (categoryArray.category == category) {
-                categoryArray.analytics[0] = categoryArray.analytics[0] + 1;
-                categoryArray.analytics[1] = categoryArray.analytics[1] + 1;
-                categoryArray.analytics[2] = categoryArray.analytics[2] + 1;
-              }
-              for (var k = 0; k < categoryArray.subCategory.length; k++) {
-                var subCategoryAray = categoryArray.subCategory[k];
-                if (subCategoryAray.category == subCategory) {
-                  subCategoryAray.analytics[0] = subCategoryAray.analytics[0] + 1;
-                  subCategoryAray.analytics[1] = subCategoryAray.analytics[1] + 1;
-                  subCategoryAray.analytics[2] = subCategoryAray.analytics[2] + 1;
+            if (resp.categories != null) {
+              for (var j = 0; j < resp.categories.length; j++) {
+                var categoryArray = resp.categories[j];
+                if (categoryArray.category == category) {
+                  categoryArray.analytics[0] = categoryArray.analytics[0] + 1;
+                  categoryArray.analytics[1] = categoryArray.analytics[1] + 1;
+                  categoryArray.analytics[2] = categoryArray.analytics[2] + 1;
                 }
-                for (var l = 0; l < subCategoryAray.brand.length; l++) {
-                  var brandArray = subCategoryAray.brand[l];
-                  if (brandArray.category == brand) {
-                    brandArray.analytics[0] = brandArray.analytics[0] + 1;
-                    brandArray.analytics[1] = brandArray.analytics[1] + 1;
-                    brandArray.analytics[2] = brandArray.analytics[2] + 1;
+                // if(categoryArray.subCategory){
+                //
+                // }
+                for (var k = 0; k < categoryArray.subCategory.length; k++) {
+                  var subCategoryAray = categoryArray.subCategory[k];
+                  if (subCategoryAray.category == subCategory) {
+                    subCategoryAray.analytics[0] = subCategoryAray.analytics[0] + 1;
+                    subCategoryAray.analytics[1] = subCategoryAray.analytics[1] + 1;
+                    subCategoryAray.analytics[2] = subCategoryAray.analytics[2] + 1;
                   }
-                  for (var m = 0; m < brandArray.name.length; m++) {
-                    var nameArray = brandArray.name[m];
-                    if (nameArray.category == name) {
-                      nameArray.analytics[0] = nameArray.analytics[0] + 1;
-                      nameArray.analytics[1] = nameArray.analytics[1] + 1;
-                      nameArray.analytics[2] = nameArray.analytics[2] + 1;
+                  for (var l = 0; l < subCategoryAray.brand.length; l++) {
+                    var brandArray = subCategoryAray.brand[l];
+                    if (brandArray.category == brand) {
+                      brandArray.analytics[0] = brandArray.analytics[0] + 1;
+                      brandArray.analytics[1] = brandArray.analytics[1] + 1;
+                      brandArray.analytics[2] = brandArray.analytics[2] + 1;
+                    }
+                    for (var m = 0; m < brandArray.name.length; m++) {
+                      var nameArray = brandArray.name[m];
+                      if (nameArray.category == name) {
+                        nameArray.analytics[0] = nameArray.analytics[0] + 1;
+                        nameArray.analytics[1] = nameArray.analytics[1] + 1;
+                        nameArray.analytics[2] = nameArray.analytics[2] + 1;
+                      }
                     }
                   }
                 }
@@ -102,16 +106,33 @@ function transactionService(requestBody, responseBody) {
     })
   }
 
-  this.getTransactionDetails = function(phoneNumber) {
+
+  this.getTransactionDetailsWithItemId = function(phoneNumber, itemId) {
     TransactionModel.find({
-      userId: {
-        "$in": [phoneNumber]
-      },
+      userId: phoneNumber,
       itemsPurchased: {
-        "$elemMatch": {
-          "itemId": "2222"
+        '$elemMatch': {
+          itemId: itemId
         }
       }
+    }, function(error, transactionDetails) {
+      if (error) {
+        responseBody.status(300);
+        responseBody.json(error);
+      } else if (transactionDetails == null || transactionDetails.length == 0) {
+        responseBody.status(404);
+        responseBody.json(false);
+      } else {
+        console.log(transactionDetails);
+        responseBody.status(200);
+        responseBody.json(true);
+      }
+    })
+  }
+
+  this.getTransactionDetails = function(phoneNumber) {
+    TransactionModel.find({
+      userId: phoneNumber
     }, function(error, transactionDetails) {
       if (error) {
         responseBody.status(300);

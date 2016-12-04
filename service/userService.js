@@ -51,6 +51,7 @@ function userService(requestBody, responseBody) {
         response.save();
         responseBody.json(response);
       } else {
+        responseBody.json(null);
         responseBody.status(404);
       }
     })
@@ -66,6 +67,7 @@ function userService(requestBody, responseBody) {
         responseBody.status(200);
         responseBody.json(user);
       } else {
+        responseBody.json(null);
         responseBody.status(404);
       }
 

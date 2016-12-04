@@ -17,6 +17,7 @@ var newarrivals = require('./routes/newarrival');
 var excelUpload = require('./routes/excelUpload');
 var updateProduct = require('./routes/productModification');
 var analytics = require('./routes/analytics');
+var reviews = require('./routes/reviews');
 
 var app = express();
 
@@ -37,8 +38,8 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var mongurl = "mongodb://ramesh:ramesh12692@ds153667.mlab.com:53667/paydata";
-//var mongurl = "mongodb://localhost:27017/paydata";
+//var mongurl = "mongodb://ramesh:ramesh12692@ds153667.mlab.com:53667/paydata";
+var mongurl = "mongodb://localhost:27017/paydata";
 
 //Mongo
 mongodb.connect(mongurl, function(error) {
@@ -69,6 +70,7 @@ app.use('/newarrivals', newarrivals);
 app.use('/feedUpload', excelUpload);
 app.use('/uppdateProduct', updateProduct);
 app.use('/analytics', analytics);
+app.use('/reviews', reviews);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
