@@ -32,9 +32,20 @@ function userService(requestBody, responseBody) {
 
 
     newUser.save(function(err, newUser) {
-      if (err) return console.error(err);
-      responseBody.status(201);
-      responseBody.json(newUser);
+      if (err) {
+        //return console.error(err);
+        var message = null;
+        console.log(err);
+        if (typeof err.errmsg != 'undefined' && err.errmsg.indexOf('duplicate')) {
+          message = "User already registered";
+        }
+        responseBody.status(200);
+        responseBody.json(message);
+      } else {
+        responseBody.status(201);
+        responseBody.json(newUser);
+      }
+
     });
   }
 
@@ -60,6 +71,24 @@ function userService(requestBody, responseBody) {
   this.getUser = function(phoneNumber) {
     UserModel.findOne({
       phoneNumber: phoneNumber
+    }).exec(function(err, user) {
+      if (err)
+        throw err;
+      if (user != null) {
+        responseBody.status(200);
+        responseBody.json(user);
+      } else {
+        responseBody.json(null);
+        responseBody.status(404);
+      }
+
+    });
+  }
+
+  this.checkUser = function(phoneNumber) {
+    UserModel.findOne({
+      phoneNumber: phoneNumber,
+      isLoggedIn: true
     }).exec(function(err, user) {
       if (err)
         throw err;

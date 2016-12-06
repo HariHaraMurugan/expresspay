@@ -3,9 +3,21 @@ var Schema = mongodb.Schema;
 
 
 var UserSchema = new Schema({
-  phoneNumber: String,
+  phoneNumber: {
+    type: String,
+    unique: true,
+    required: true
+  },
   offerId: String,
-  emailId: String,
+  emailId: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  isLoggedIn: {
+    type: Boolean,
+    default: true
+  },
   transactionsMade: [String],
   userRegisteredDate: {
     type: Date

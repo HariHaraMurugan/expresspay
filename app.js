@@ -18,6 +18,7 @@ var excelUpload = require('./routes/excelUpload');
 var updateProduct = require('./routes/productModification');
 var analytics = require('./routes/analytics');
 var reviews = require('./routes/reviews');
+var stores = require('./routes/stores')
 
 var app = express();
 
@@ -71,6 +72,7 @@ app.use('/feedUpload', excelUpload);
 app.use('/uppdateProduct', updateProduct);
 app.use('/analytics', analytics);
 app.use('/reviews', reviews);
+app.use('/stores', stores);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var userService = require('../service/userService.js');
+var io = require('../routes/streamer');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -10,6 +11,11 @@ router.get('/', function(req, res, next) {
 router.post('/addnewuser', function(req, res, next) {
   console.log("Adding New User");
   new userService(req.body, res).addNewUser();
+})
+
+router.get('/checkuser/:phoneNumber', function(req, res, next) {
+  console.log("Find User");
+  new userService(req.body, res).checkUser(req.params.phoneNumber);
 })
 
 router.get('/finduser/:phoneNumber', function(req, res, next) {
