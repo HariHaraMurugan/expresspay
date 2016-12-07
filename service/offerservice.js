@@ -49,5 +49,24 @@ function offerservice(requestBody, responseBody) {
     });
   }
 
+  this.transferOfferId = function(storeId, itemId, offerId, toOfferId) {
+    console.log(offerId);
+    OffersModel.findOne({
+      itemId: itemId,
+      storeId: storeId,
+      userId: offerId
+    }, function(err, offerDetails) {
+      if (err)
+        throw err;
+      offerDetails.userId.splice(offerDetails.userId.indexOf(offerId), 1);
+      offerDetails.userId.push(toOfferId);
+      offerDetails.save();
+      responseBody.status(200);
+      responseBody.json(offerDetails);
+    });
+  }
+
+
+
 }
 module.exports = offerservice;

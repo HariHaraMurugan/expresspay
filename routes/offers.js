@@ -20,4 +20,8 @@ router.get('/getOffersbyofferid/:storeId/:offerId', function(req, res, next) {
   new offerService(req.body, res).getOffersByOfferId(req.params.storeId, req.params.offerId);
 });
 
+router.get('/transferoffer/:storeId/:itemId/:offerId/:toOfferId', function(req, res, next) {
+  new offerService(req.body, res).transferOfferId(req.params.storeId, req.params.itemId, req.params.offerId, req.params.toOfferId);
+});
+
 module.exports = router;

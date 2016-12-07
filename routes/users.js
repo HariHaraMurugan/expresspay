@@ -28,4 +28,25 @@ router.post('/updateqpay/:phoneNumber', function(req, res, next) {
   new userService(req.body, res).updateQpayUser(req.params.phoneNumber);
 })
 
+router.post('/shareofferinfo/:phoneNumber', function(req, res, next) {
+  console.log("Shre Item");
+  var phoneNumberArray = req.body.numbers;
+  var message = req.body.message;
+  var from = req.params.phoneNumber;
+
+  for (var i = 0; i < phoneNumberArray.length; i++) {
+    var socketMessage = {
+      "from": from,
+      "number": phoneNumberArray[i],
+      "message": message
+    }
+    io.emit('offernotification', socketMessage);
+
+    console.log(socketMessage);
+  }
+  res.json("Shared");
+  res.status(200);
+//new userService(req.body, res).updateQpayUser(req.params.phoneNumber);
+})
+
 module.exports = router;
