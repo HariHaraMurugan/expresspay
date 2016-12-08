@@ -18,6 +18,10 @@ var UserSchema = new Schema({
     type: Boolean,
     default: true
   },
+  isSharable: {
+    type: Boolean,
+    default: true
+  },
   transactionsMade: [String],
   userRegisteredDate: {
     type: Date

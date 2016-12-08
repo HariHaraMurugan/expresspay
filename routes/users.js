@@ -13,6 +13,10 @@ router.post('/addnewuser', function(req, res, next) {
   new userService(req.body, res).addNewUser();
 })
 
+router.get('/updatesharrable/:phoneNumber/:sharrabeFlag', function(req, res, next) {
+  new userService(null, res).updateIsSharrable(req.params.phoneNumber, req.params.sharrabeFlag);
+})
+
 router.get('/checkuser/:phoneNumber', function(req, res, next) {
   console.log("Find User");
   new userService(req.body, res).checkUser(req.params.phoneNumber);

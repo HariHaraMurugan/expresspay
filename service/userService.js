@@ -102,5 +102,21 @@ function userService(requestBody, responseBody) {
 
     });
   }
+
+  this.updateIsSharrable = function(phoneNumber, flag) {
+    UserModel.findOneAndUpdate({
+      phoneNumber: phoneNumber
+    }, {
+      isSharable: flag,
+    }, {
+      new: true
+    }, function(err, user) {
+      if (err)
+        throw err;
+      responseBody.status(200);
+      console.log(user);
+      responseBody.json(user);
+    })
+  }
 }
 module.exports = userService;

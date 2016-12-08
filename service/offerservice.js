@@ -12,6 +12,35 @@ function offerservice(requestBody, responseBody) {
     });
   }
 
+
+  this.removeOfferForUser = function(storeId, itemId, offerId) {
+    console.log(storeId);
+    console.log(itemId);
+    console.log(offerId);
+    OffersModel.findOne({
+      storeId: storeId,
+      itemId: itemId
+    }, function(err, offerDetails) {
+      if (err)
+        throw err;
+      if (offerDetails != null && offerDetails.userId != null) {
+        offerDetails.userId.splice(offerDetails.userId.indexOf(offerId), 1);
+        if (offerDetails.userId == null || offerDetails.userId.length == 0) {
+          offerDetails.remove();
+        // responseBody.status(200);
+        // responseBody.json("Removed");
+        } else {
+          offerDetails.save();
+        // responseBody.status(200);
+        // responseBody.json(offerDetails);
+        }
+      }
+      // console.log("OFFER DEATILSS");
+      // console.log(offerDetails);
+
+    });
+  }
+
   this.getOfferByStoreId = function(storeId) {
     OffersModel.find({
       storeId: storeId,

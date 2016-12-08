@@ -24,4 +24,8 @@ router.get('/transferoffer/:storeId/:itemId/:offerId/:toOfferId', function(req, 
   new offerService(req.body, res).transferOfferId(req.params.storeId, req.params.itemId, req.params.offerId, req.params.toOfferId);
 });
 
+router.get('/removeOffer/:storeId/:itemId/:offerId', function(req, res, next) {
+  new offerService(req.body, res).removeOfferForUser(req.params.storeId, req.params.itemId, req.params.offerId);
+});
+
 module.exports = router;

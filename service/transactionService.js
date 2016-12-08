@@ -1,6 +1,7 @@
 var mongodb = require('mongoose');
 var models = require('./userModel.js');
 var inventoryService = require('../service/inventoryService.js');
+var offerService = require('../service/offerservice.js');
 var analyticsModel = require('./analyticsModel.js');
 var Schema = mongodb.Schema;
 // Define defect schema
@@ -20,7 +21,7 @@ var TransactionSchema = new Schema({
 function transactionService(requestBody, responseBody) {
   var TransactionModel = mongodb.model('transactions', TransactionSchema);
   var UserModel = models.User;
-  this.enterTransactionDetails = function(phoneNumber) {
+  this.enterTransactionDetails = function() {
     var newTransaction = new TransactionModel(requestBody);
     newTransaction.save(function(err, newTransaction) {
       if (err) return console.error(err);
@@ -29,7 +30,7 @@ function transactionService(requestBody, responseBody) {
         new inventoryService(null, null).updateInventoryQuantity(newTransaction.itemsPurchased[i].storeId, newTransaction.itemsPurchased[i].itemId, newItemQuantity);
       }
       UserModel.findOneAndUpdate({
-        phoneNumber: "9940366400"
+        phoneNumber: requestBody.userId
       }, {
         $push: {
           "transactionsMade": newTransaction._id
@@ -37,6 +38,10 @@ function transactionService(requestBody, responseBody) {
       }, function(error, updatedUser) {
         console.log("Transactions Updated for User");
       });
+      for (var i = 0; i < requestBody.itemsPurchased.length; i++) {
+        requestBody.itemsPurchased[i].itemId
+        new offerService(null, null).removeOfferForUser(requestBody.storeId, requestBody.itemsPurchased[i].itemId, requestBody.offerId);
+      }
 
       analyticsModel.findOne({
         storeId: newTransaction.storeId
