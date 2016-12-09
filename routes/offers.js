@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var offerService = require('../service/offerservice.js');
+var io = require('../routes/streamer');
 
 /* GET inventory listing. */
 
@@ -21,6 +22,8 @@ router.get('/getOffersbyofferid/:storeId/:offerId', function(req, res, next) {
 });
 
 router.get('/transferoffer/:storeId/:itemId/:offerId/:toOfferId', function(req, res, next) {
+  console.log("Transfer");
+  io.emit('transferNotification', "New Offer has been added");
   new offerService(req.body, res).transferOfferId(req.params.storeId, req.params.itemId, req.params.offerId, req.params.toOfferId);
 });
 
