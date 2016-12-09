@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-//var xls = require("excel");
+var xls = require("excel");
 
 
 //var formidable = require('formidable');
@@ -29,16 +29,18 @@ router.post('/upload', function(req, res, next) {
       throw err;
 
   });
-  //console.log(file);
-  // xls('./public/file/guru.xlsx', function(err, data) {
-  //   if (err)
-  //     throw err;
-  //   //convertToJSON(JSON.stringify(convertToJSON(data)));
-  //   var arr = fileName.split("_");
-  //   var storeId = arr[1];
-  //   console.log("storeId is" + storeId);
-  //   new uploadService(req, res).uploadFile(convertToJSON(data), storeId);
-  // });
+  console.log(file);
+   xls('./public/file/guru.xlsx', function(err, data) {
+     if (err)
+       throw err;
+     //convertToJSON(JSON.stringify(convertToJSON(data)));
+     //var storeIdsess = req.session.storeId;
+    var arr = fileName.split("_");
+     var storeId = arr[1];
+     console.log("storeId is" + storeId);
+     new uploadService(req, res).uploadFile(convertToJSON(data), storeId);
+   });
+   res.render('fileUpload',{ message: 'File uploaded successfully'});
 
 });
 

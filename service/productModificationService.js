@@ -1,6 +1,6 @@
 var InventoryModels = require('./inventoryModel.js');
 function productModificationService(requestBody,responseBody){
-    
+
     this.updateItemInventory = function(itemId,storeId,inventory){
         InventoryModels.findOneAndUpdate({itemId: itemId,storeId:storeId},{
              itemQuantity: inventory
@@ -11,24 +11,22 @@ function productModificationService(requestBody,responseBody){
             responseBody.json(inventory);
           }
             });
-        
+
     }
     this.createNewProduct = function(reqParams){
-        InventoryModels.findOneAndUpdate({itemId: reqParams.itemId,storeId:reqParams.storeId},{upsert:true},
-        {
+        console.log('inside creation');
+        console.log(JSON.stringify(reqParams));
+        InventoryModels.update({itemId: reqParams.itemId,storeId:'1111'},
+       { $set:{
                              itemName:reqParams.itemName,
-                             itemCategory:reqParams.itemCategory,
-                             itemSubCategory:reqParams.itemSubCategory,
-                             itemBrand:reqParams.itemBrand,
+                             itemCategory:reqParams.category,
+                             itemSubCategory:reqParams.subCategory,
+                             itemBrand:reqParams.brand,
                              itemPrice:reqParams.itemPrice,
-                             itemQuantity:reqParams.itemQuantity,
-                             itemImage:reqParams.itemImage  
-        },function(err,product){
+                             itemQuantity:reqParams.quantity,
+                             itemImage:reqParams.image
+        }}, {upsert:true},function(err,product){
         if (err) throw err;
-        if(product!=null){
-            responseBody.status(200);
-            responseBody.json(product);
-        }
         });
 
 }

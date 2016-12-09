@@ -4,6 +4,8 @@ var Schema = mongodb.Schema;
 var ArrivalSchema = new Schema({
   storeId: String,
   itemId: String,
+  itemCategory:String,
+  itemSubCategory:String,
   itemAddedOn: {
     type: Date,
     default: Date.now

@@ -6,8 +6,13 @@ router.post('/updateInventory',function(req,res,next){
 });
 
 router.post('/createNewProduct',function(req,res,next){
-    new productModifcationService(req,res).createNewProduct(req.params);
+    console.log('inside creating product');
+        console.log("parametrs are"+req.body.itemId)
+         console.log("parametrs are"+req.body.itemName);
+          console.log("parametrs are"+req.body.itemCategory);
+           console.log("parametrs are"+req.body.itemSubCategory);
+    new productModifcationService(req,res).createNewProduct(req.body);
+    res.render('fileUpload');
 });
 
 module.exports = router;
-
