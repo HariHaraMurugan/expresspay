@@ -1,9 +1,10 @@
 var mongodb = require('mongoose');
 var models = require('./userModel.js');
 var inventoryService = require('../service/inventoryService.js');
-var offerService = require('../service/offerservice.js');
 var analyticsModel = require('./analyticsModel.js');
-var Schema = mongodb.Schema;
+
+var TransactionModel =require('./transactionModel.js');
+/*var Schema = mongodb.Schema;
 // Define defect schema
 var TransactionSchema = new Schema({
   storeId: String,
@@ -16,12 +17,12 @@ var TransactionSchema = new Schema({
     default: Date.now
   },
   itemsPurchased: [Schema.Types.Mixed]
-});
+});*/
 
 function transactionService(requestBody, responseBody) {
-  var TransactionModel = mongodb.model('transactions', TransactionSchema);
+  //var TransactionModel = mongodb.model('transactions', TransactionSchema);
   var UserModel = models.User;
-  this.enterTransactionDetails = function() {
+  this.enterTransactionDetails = function(phoneNumber) {
     var newTransaction = new TransactionModel(requestBody);
     newTransaction.save(function(err, newTransaction) {
       if (err) return console.error(err);
@@ -30,7 +31,7 @@ function transactionService(requestBody, responseBody) {
         new inventoryService(null, null).updateInventoryQuantity(newTransaction.itemsPurchased[i].storeId, newTransaction.itemsPurchased[i].itemId, newItemQuantity);
       }
       UserModel.findOneAndUpdate({
-        phoneNumber: requestBody.userId
+        phoneNumber: "9940366400"
       }, {
         $push: {
           "transactionsMade": newTransaction._id
@@ -38,10 +39,6 @@ function transactionService(requestBody, responseBody) {
       }, function(error, updatedUser) {
         console.log("Transactions Updated for User");
       });
-      for (var i = 0; i < requestBody.itemsPurchased.length; i++) {
-        requestBody.itemsPurchased[i].itemId
-        new offerService(null, null).removeOfferForUser(requestBody.storeId, requestBody.itemsPurchased[i].itemId, requestBody.offerId);
-      }
 
       analyticsModel.findOne({
         storeId: newTransaction.storeId

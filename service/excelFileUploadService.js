@@ -2,7 +2,6 @@
 var InventoryModels = require('./inventoryModel.js');
 var AnalyticsModel = require('./analyticsModel.js');
 var ArrivalModel = require('./newarrivalModel.js');
-var promise =require('promise');
 
 function uploadService(requestBody,responseBody){
     //Upload file
