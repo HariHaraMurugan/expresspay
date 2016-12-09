@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -19,6 +20,10 @@ var updateProduct = require('./routes/productModification');
 var analytics = require('./routes/analytics');
 var reviews = require('./routes/reviews');
 var stores = require('./routes/stores')
+var discountUpdate = require('./routes/discountUpdate');
+var schedulerService = require('./service/schedulerService');
+var recommendationService = require('./service/recomendationService.js');
+var recomendations = require('./routes/userRecommendation')
 
 var app = express();
 
@@ -73,6 +78,8 @@ app.use('/uppdateProduct', updateProduct);
 app.use('/analytics', analytics);
 app.use('/reviews', reviews);
 app.use('/stores', stores);
+app.use('/offersAndpromotions', discountUpdate);
+app.use('/recomendations',recomendations);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -105,5 +112,29 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//weekly
+cron.schedule('59 23 * * Sun', function(){
+  new schedulerService().updatedata(0);
+});
+
+//Monthly
+cron.schedule('0 0 1 Jan,Dec *', function(){
+   new schedulerService().updatedata(1);
+});
+
+//yearly
+cron.schedule('0 0 1 Jan *', function(){
+  new schedulerService().updatedata(2);
+});
+
+//update arrivals
+cron.schedule('59 23 * * 0,7', function(){
+  new schedulerService().updateNewArrivals();
+});
+
+cron.schedule('* 0,23 * * * *', function(){
+  console.log('inside recommenadation cron');
+  new recommendationService().setRecommendations();
+});
 
 module.exports = app;
