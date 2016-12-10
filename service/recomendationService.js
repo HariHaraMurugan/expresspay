@@ -1,5 +1,5 @@
 var ArrivalModel = require('./newarrivalModel.js');
-var discountModel =require("./discountsModel.js");
+var discountModel =require("./offerModel.js");
 var transactionModel = require("./transactionModel.js");
 var InventoryModel = require("./inventoryModel.js");
 var userModel = require("./userModel.js");
@@ -92,15 +92,19 @@ function recommendationService(requestBody,responseBody){
     });
     }
     
-    this.getRecommendations = function(userId){
-        recommendationModel.findOne({userId:userId},function(err,data){
+    this.getRecommendations = function(userID){
+        console.log('Inside service'+userID);
+        recommendationModel.findOne({userId:userID},function(err,data){
+             console.log('data is '+JSON.stringify(data));
+             console.log(err);
             if(err) throw err;
             if(data!=null){
                 responseBody.status(201);
                 responseBody.send(data);
             }
-        })
+        });
     }
+    
     function setCatArray(itemPurchasedArray,map){
         /*console.log('5 is'+JSON.stringify(itemPurchasedArray));
          console.log('map size is ' + map.size);*/
